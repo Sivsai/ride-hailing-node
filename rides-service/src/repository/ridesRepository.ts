@@ -46,3 +46,32 @@ export const getTripById = async(tripId:string) =>{
     );
     return result.rows[0] || null;
 };
+
+export const completeTrip = async(tripId:string,fare:number) =>{
+  const result =   await query(`
+        UPDATE trips SET status = 'completed',ended_at=NOW(), fare = $2 WHERE id = $1 
+        RETURNING *`,[tripId,fare]);
+
+        return result.rows[0];
+};
+
+export const getActiveTripCount = async()=>{
+    const result = await query(`
+        SELECT COUNT(*) FROM trips WHERE status IN ('requested','accepted','pickup','enroute')
+        `);
+        return parseInt(result.rows[0].count);
+};
+export const getOnlineDriverCount = async()=>{
+    const result  = await query(`
+        SELECT COUNT(*) FROM drivers WHERE is_Online = true AND is_available = true 
+        `);
+        return parseInt(result.rows[0].count);
+};
+
+export const getDriverById = async (driverId: string) => {
+  const result = await query(
+    `SELECT * FROM drivers WHERE user_id=$1`,
+    [driverId]
+  );
+  return result.rows[0] || null;
+};

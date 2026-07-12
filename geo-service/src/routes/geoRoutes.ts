@@ -14,7 +14,7 @@ router.post('/location', async (req: any, res: Response, next: NextFunction) => 
 });
 router.get('/nearby', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const { lat, long, radius} = req.query;
+        const { lat, long, radius } = req.query;
 
         const drivers = await geoService.findNearbyDrivers(
             parseFloat(lat as string),

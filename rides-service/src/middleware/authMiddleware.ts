@@ -5,6 +5,8 @@ import jwt from 'jsonwebtoken'
 import { query } from '../config/db'
 export const authenticate = async (req: any, res: Response, next: NextFunction) => {
     try {
+        console.log("Auth started");
+
         const token = req.headers.authorization?.split(' ')[1];
 
         if (!token) throw new UnauthorizedError('Token not avaliable');
