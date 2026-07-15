@@ -3,12 +3,15 @@ import { query } from './config/db';
 import {cleanExpiredKeys} from './keys/keyManager'
 import {errorHandler} from './middleware/errorHandler'
 import authRoutes from './routes/authRoutes'
-
+import {Response,NextFunction} from 'express'
 
 
 const app = express();
 app.use(express.json());
-
+app.use('/health',(req:any,res:Response,next:NextFunction)=>{
+ res.json({status:"healthy"})
+ next();   
+});
 app.use('/api/v1/auth',authRoutes);
 app.use(errorHandler);
 
